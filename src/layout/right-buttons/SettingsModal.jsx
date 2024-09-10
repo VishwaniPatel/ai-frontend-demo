@@ -15,13 +15,13 @@ import {
 import {
   menuChangeBehaviour,
   menuChangePlacement,
-} from "layout/nav/main-menu/menuSlice";
+} from "../../layout/nav/main-menu/menuSlice";
 import {
   settingsChangeColor,
   settingsChangeLayout,
   settingsChangeNavColor,
   settingsChangeRadius,
-} from "settings/settingsSlice";
+} from "../../settings/settingsSlice";
 
 const OptionGroup = ({ label = "", children, noContainer = false }) => (
   <div className="mb-5">

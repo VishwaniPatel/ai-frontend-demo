@@ -1,4 +1,4 @@
-import { DIMENSION, MENU_BEHAVIOUR, MENU_PLACEMENT } from 'constants.js';
+import { DIMENSION, MENU_BEHAVIOUR, MENU_PLACEMENT } from "../../../constants";
 // Decides which type of menu to add based on the parameters or the current window size.
 // placementStatus:
 // 1 {selected: 'horizontal',  dimension: 'mobile',         html-data: 'horizontal', view: 'vertical'}
@@ -45,7 +45,7 @@ export const checkPlacement = ({ placement, breakpoints }) => {
       view: MENU_PLACEMENT.Vertical,
     };
   }
-  return { status: 0, placementHtmlData: '', dimensionHtmlData: '', view: '' };
+  return { status: 0, placementHtmlData: "", dimensionHtmlData: "", view: "" };
 };
 
 // Decides which type of menu behaviour to init based on the parameters or the current window size.
@@ -59,13 +59,22 @@ export const checkPlacement = ({ placement, breakpoints }) => {
 export const checkBehaviour = ({ placement, behaviour, breakpoints }) => {
   const windowWidth = window.innerWidth;
   // Vertical rules
-  if (placement === MENU_PLACEMENT.Vertical && behaviour === MENU_BEHAVIOUR.Unpinned) {
+  if (
+    placement === MENU_PLACEMENT.Vertical &&
+    behaviour === MENU_BEHAVIOUR.Unpinned
+  ) {
     // Mobile and Desktop
-    if (breakpoints.verticalMobile > windowWidth || breakpoints.verticalUnpinned <= windowWidth) {
+    if (
+      breakpoints.verticalMobile > windowWidth ||
+      breakpoints.verticalUnpinned <= windowWidth
+    ) {
       return {
         status: 1,
         // A small fix to make sure nav config at Vertical No Semi Hidden overrides theme settings.
-        behaviourHtmlData: breakpoints.verticalUnpinned !== breakpoints.verticalMobile ? MENU_BEHAVIOUR.Unpinned : MENU_BEHAVIOUR.Pinned,
+        behaviourHtmlData:
+          breakpoints.verticalUnpinned !== breakpoints.verticalMobile
+            ? MENU_BEHAVIOUR.Unpinned
+            : MENU_BEHAVIOUR.Pinned,
       };
     }
     // Tablet
@@ -74,9 +83,15 @@ export const checkBehaviour = ({ placement, behaviour, breakpoints }) => {
       behaviourHtmlData: MENU_BEHAVIOUR.Unpinned,
     };
   }
-  if (placement === MENU_PLACEMENT.Vertical && behaviour === MENU_BEHAVIOUR.Pinned) {
+  if (
+    placement === MENU_PLACEMENT.Vertical &&
+    behaviour === MENU_BEHAVIOUR.Pinned
+  ) {
     // Mobile and Desktop
-    if (breakpoints.verticalMobile > windowWidth || breakpoints.verticalUnpinned <= windowWidth) {
+    if (
+      breakpoints.verticalMobile > windowWidth ||
+      breakpoints.verticalUnpinned <= windowWidth
+    ) {
       return {
         status: 3,
         behaviourHtmlData: MENU_BEHAVIOUR.Pinned,
@@ -90,30 +105,40 @@ export const checkBehaviour = ({ placement, behaviour, breakpoints }) => {
   }
 
   // Horizontal rules
-  if (placement === MENU_PLACEMENT.Horizontal && behaviour === MENU_BEHAVIOUR.Unpinned) {
+  if (
+    placement === MENU_PLACEMENT.Horizontal &&
+    behaviour === MENU_BEHAVIOUR.Unpinned
+  ) {
     return {
       status: 5,
       behaviourHtmlData: MENU_BEHAVIOUR.Unpinned,
     };
   }
-  if (placement === MENU_PLACEMENT.Horizontal && behaviour === MENU_BEHAVIOUR.Pinned) {
+  if (
+    placement === MENU_PLACEMENT.Horizontal &&
+    behaviour === MENU_BEHAVIOUR.Pinned
+  ) {
     return {
       status: 6,
       behaviourHtmlData: MENU_BEHAVIOUR.Pinned,
     };
   }
-  return { status: 0, behaviourHtmlData: '' };
+  return { status: 0, behaviourHtmlData: "" };
 };
 
 // Using popperjs to align user,language and notification dropdowns in the menu
 export const dropdownPositionFixInMenu = ({ style, placement, isMobile }) => {
-  let xPlacement = 'bottom-end';
+  let xPlacement = "bottom-end";
   let { transform } = style;
-  if ((placement === MENU_PLACEMENT.Vertical || isMobile) && style && style.transform) {
-    transform = style.transform.replace(/(\d+)px/, '15px');
+  if (
+    (placement === MENU_PLACEMENT.Vertical || isMobile) &&
+    style &&
+    style.transform
+  ) {
+    transform = style.transform.replace(/(\d+)px/, "15px");
     if (window.innerHeight <= 450) {
       // transform = transform.replace(/, (\d+)px/, ', 15px');
-      xPlacement = 'top-end';
+      xPlacement = "top-end";
     }
   }
   return { xPlacement, transform };

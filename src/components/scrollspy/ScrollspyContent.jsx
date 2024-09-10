@@ -1,5 +1,5 @@
-import React from 'react';
-import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import React from "react";
+import CsLineIcons from "./../../cs-line-icons/CsLineIcons";
 
 const ScrollspyContent = React.memo(({ items }) => (
   <ul className="nav flex-column">
@@ -24,6 +24,6 @@ const ScrollspyContent = React.memo(({ items }) => (
     ))}
   </ul>
 ));
-ScrollspyContent.displayName = 'ScrollspyContent';
+ScrollspyContent.displayName = "ScrollspyContent";
 
 export default ScrollspyContent;

@@ -1,7 +1,7 @@
-import React from 'react';
-import { Dropdown } from 'react-bootstrap';
-import CsLineIcons from 'cs-line-icons/CsLineIcons';
-import ScrollspyContent from './ScrollspyContent';
+import React from "react";
+import { Dropdown } from "react-bootstrap";
+import CsLineIcons from "../../cs-line-icons/CsLineIcons";
+import ScrollspyContent from "./ScrollspyContent";
 
 const ScrollspyToggle = React.forwardRef(({ children, onClick }, ref) => (
   <a
@@ -16,7 +16,7 @@ const ScrollspyToggle = React.forwardRef(({ children, onClick }, ref) => (
     {children}
   </a>
 ));
-ScrollspyToggle.displayName = 'ScrollspyToggle';
+ScrollspyToggle.displayName = "ScrollspyToggle";
 
 const ScrollspyMobile = ({ items = [] }) => {
   if (items === null || items.length <= 0) {
@@ -35,7 +35,7 @@ const ScrollspyMobile = ({ items = [] }) => {
           popperConfig={{
             modifiers: [
               {
-                name: 'offset',
+                name: "offset",
                 options: {
                   offset: [0, 5],
                 },

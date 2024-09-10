@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import { Dropdown } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import classNames from 'classnames';
-import { MENU_PLACEMENT } from 'constants.js';
-import { changeLang } from 'lang/langSlice';
-import { layoutShowingNavMenu } from 'layout/layoutSlice';
+import React, { useEffect } from "react";
+import { Dropdown } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import classNames from "classnames";
+import { MENU_PLACEMENT } from "../../constants";
+import { changeLang } from "../../lang/langSlice";
+import { layoutShowingNavMenu } from "../../layout/layoutSlice";
 
-const MENU_NAME = 'NavLanguageSwitcher';
+const MENU_NAME = "NavLanguageSwitcher";
 const NavLanguageSwitcher = () => {
   const dispatch = useDispatch();
 
@@ -25,21 +25,30 @@ const NavLanguageSwitcher = () => {
   };
   const onToggle = (status, event) => {
     if (event && event.stopPropagation) event.stopPropagation();
-    else if (event && event.originalEvent && event.originalEvent.stopPropagation) event.originalEvent.stopPropagation();
-    dispatch(layoutShowingNavMenu(status ? MENU_NAME : ''));
+    else if (
+      event &&
+      event.originalEvent &&
+      event.originalEvent.stopPropagation
+    )
+      event.originalEvent.stopPropagation();
+    dispatch(layoutShowingNavMenu(status ? MENU_NAME : ""));
   };
 
   useEffect(() => {
-    dispatch(layoutShowingNavMenu(''));
+    dispatch(layoutShowingNavMenu(""));
     // eslint-disable-next-line
   }, [attrMenuAnimate, behaviourHtmlData, attrMobile, color]);
 
   return (
     <div className="language-switch-container">
-      <Dropdown onToggle={onToggle} show={showingNavMenu === MENU_NAME} align="end">
+      <Dropdown
+        onToggle={onToggle}
+        show={showingNavMenu === MENU_NAME}
+        align="end"
+      >
         <Dropdown.Toggle
           variant="empty"
-          className={classNames('language-button', {
+          className={classNames("language-button", {
             show: showingNavMenu === MENU_NAME,
           })}
         >
@@ -50,7 +59,7 @@ const NavLanguageSwitcher = () => {
           popperConfig={{
             modifiers: [
               {
-                name: 'offset',
+                name: "offset",
                 options: {
                   offset: () => {
                     if (placement === MENU_PLACEMENT.Vertical) {
@@ -64,7 +73,10 @@ const NavLanguageSwitcher = () => {
           }}
         >
           {languages.map((lang) => (
-            <Dropdown.Item key={lang.locale} onClick={() => onSelectLang(lang.code)}>
+            <Dropdown.Item
+              key={lang.locale}
+              onClick={() => onSelectLang(lang.code)}
+            >
               {lang.code}
             </Dropdown.Item>
           ))}

@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import classNames from 'classnames';
-import { Col, Dropdown, Row } from 'react-bootstrap';
-import { MENU_PLACEMENT } from 'constants.js';
-import CsLineIcons from 'cs-line-icons/CsLineIcons';
-import { layoutShowingNavMenu } from 'layout/layoutSlice';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import classNames from "classnames";
+import { Col, Dropdown, Row } from "react-bootstrap";
+import { MENU_PLACEMENT } from "../../constants";
+import CsLineIcons from "../../cs-line-icons/CsLineIcons";
+import { layoutShowingNavMenu } from "./../../layout/layoutSlice";
 
 const NavUserMenuContent = () => (
   <div>
@@ -69,12 +69,14 @@ const NavUserMenuContent = () => (
         <ul className="list-unstyled">
           <li>
             <a href="#/!">
-              <CsLineIcons icon="help" className="me-2" size="17" /> <span className="align-middle">Help</span>
+              <CsLineIcons icon="help" className="me-2" size="17" />{" "}
+              <span className="align-middle">Help</span>
             </a>
           </li>
           <li>
             <a href="#/!">
-              <CsLineIcons icon="file-text" className="me-2" size="17" /> <span className="align-middle">Docs</span>
+              <CsLineIcons icon="file-text" className="me-2" size="17" />{" "}
+              <span className="align-middle">Docs</span>
             </a>
           </li>
         </ul>
@@ -83,12 +85,14 @@ const NavUserMenuContent = () => (
         <ul className="list-unstyled">
           <li>
             <a href="#/!">
-              <CsLineIcons icon="gear" className="me-2" size="17" /> <span className="align-middle">Settings</span>
+              <CsLineIcons icon="gear" className="me-2" size="17" />{" "}
+              <span className="align-middle">Settings</span>
             </a>
           </li>
           <li>
             <a href="#/!">
-              <CsLineIcons icon="logout" className="me-2" size="17" /> <span className="align-middle">Logout</span>
+              <CsLineIcons icon="logout" className="me-2" size="17" />{" "}
+              <span className="align-middle">Logout</span>
             </a>
           </li>
         </ul>
@@ -121,16 +125,23 @@ const NavUserMenuDropdownToggle = React.memo(
 const NavUserMenuDropdownMenu = React.memo(
   React.forwardRef(({ style, className }, ref) => {
     return (
-      <div ref={ref} style={style} className={classNames('dropdown-menu dropdown-menu-end user-menu wide', className)}>
+      <div
+        ref={ref}
+        style={style}
+        className={classNames(
+          "dropdown-menu dropdown-menu-end user-menu wide",
+          className
+        )}
+      >
         <NavUserMenuContent />
       </div>
     );
   })
 );
 
-NavUserMenuDropdownMenu.displayName = 'NavUserMenuDropdownMenu';
+NavUserMenuDropdownMenu.displayName = "NavUserMenuDropdownMenu";
 
-const MENU_NAME = 'NavUserMenu';
+const MENU_NAME = "NavUserMenu";
 
 const NavUserMenu = () => {
   const dispatch = useDispatch();
@@ -147,12 +158,17 @@ const NavUserMenu = () => {
 
   const onToggle = (status, event) => {
     if (event && event.stopPropagation) event.stopPropagation();
-    else if (event && event.originalEvent && event.originalEvent.stopPropagation) event.originalEvent.stopPropagation();
-    dispatch(layoutShowingNavMenu(status ? MENU_NAME : ''));
+    else if (
+      event &&
+      event.originalEvent &&
+      event.originalEvent.stopPropagation
+    )
+      event.originalEvent.stopPropagation();
+    dispatch(layoutShowingNavMenu(status ? MENU_NAME : ""));
   };
 
   useEffect(() => {
-    dispatch(layoutShowingNavMenu(''));
+    dispatch(layoutShowingNavMenu(""));
     // eslint-disable-next-line
   }, [attrMenuAnimate, behaviourHtmlData, attrMobile, color]);
 
@@ -160,7 +176,13 @@ const NavUserMenu = () => {
     return <></>;
   }
   return (
-    <Dropdown as="div" bsPrefix="user-container d-flex" onToggle={onToggle} show={showingNavMenu === MENU_NAME} drop="down">
+    <Dropdown
+      as="div"
+      bsPrefix="user-container d-flex"
+      onToggle={onToggle}
+      show={showingNavMenu === MENU_NAME}
+      drop="down"
+    >
       <Dropdown.Toggle as={NavUserMenuDropdownToggle} user={currentUser} />
       <Dropdown.Menu
         as={NavUserMenuDropdownMenu}
@@ -168,7 +190,7 @@ const NavUserMenu = () => {
         popperConfig={{
           modifiers: [
             {
-              name: 'offset',
+              name: "offset",
               options: {
                 offset: () => {
                   if (placement === MENU_PLACEMENT.Horizontal) {

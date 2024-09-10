@@ -1,20 +1,20 @@
-import React, { useMemo, useState, useEffect, useRef } from 'react';
-import classNames from 'classnames';
-import FuzzyHighlighter from 'react-fuzzy-highlighter';
-import { useIntl } from 'react-intl';
-import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { getSearchItems } from 'routing/helper';
-import { USE_MULTI_LANGUAGE } from 'config.js';
-import routesAndMenuItems from 'routes.js';
+import React, { useMemo, useState, useEffect, useRef } from "react";
+import classNames from "classnames";
+import FuzzyHighlighter from "react-fuzzy-highlighter";
+import { useIntl } from "react-intl";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getSearchItems } from "./../../../routing/helper";
+import { USE_MULTI_LANGUAGE } from "./../../../config";
+import routesAndMenuItems from "./../../../routes";
 
 const RESULT_LIMIT = 10;
 
 const SearchInput = ({ show, setShow }) => {
-  const history = useHistory();
+  const history = useNavigate();
   const searchInput = useRef(null);
   const [data, setData] = useState(null);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(null);
   const resultCount = React.useRef(0);
   const selectedItem = React.useRef({});
@@ -75,16 +75,16 @@ const SearchInput = ({ show, setShow }) => {
     if (USE_MULTI_LANGUAGE) {
       const formatedRoutes = routes.map((d) => ({
         ...d,
-        label: f({ id: d.label || 'menu.home' }),
+        label: f({ id: d.label || "menu.home" }),
       }));
       setData(formatedRoutes);
     } else {
       setData(routes);
     }
-    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener("keydown", onKeyDown);
 
     return () => {
-      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener("keydown", onKeyDown);
     };
     // eslint-disable-next-line
   }, []);
@@ -95,7 +95,7 @@ const SearchInput = ({ show, setShow }) => {
         searchInput.current.focus();
       }, 0);
     } else {
-      setQuery('');
+      setQuery("");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show]);
@@ -133,41 +133,56 @@ const SearchInput = ({ show, setShow }) => {
               distance: 100,
               maxPatternLength: 32,
               minMatchCharLength: 1,
-              keys: ['label'],
+              keys: ["label"],
             }}
           >
             {({ formattedResults, results }) => {
-              resultCount.current = Math.min(formattedResults.length, RESULT_LIMIT);
-              selectedItem.current = selectedIndex === null ? {} : results[selectedIndex].item;
+              resultCount.current = Math.min(
+                formattedResults.length,
+                RESULT_LIMIT
+              );
+              selectedItem.current =
+                selectedIndex === null ? {} : results[selectedIndex].item;
               return results.length > 0 ? (
                 <ul id="searchPagesResults" className="auto-complete-result">
-                  {formattedResults.slice(0, RESULT_LIMIT).map((formattedResult, resultIndex) => (
-                    <li
-                      key={resultIndex}
-                      onClick={() => onResultClick(formattedResult.item.path)}
-                      className={classNames('auto-complete-result-item', {
-                        autoComplete_selected: selectedIndex === resultIndex,
-                      })}
-                    >
-                      {Array.isArray(formattedResult.formatted.label) ? (
-                        <p className="mb-0">
-                          {formattedResult.formatted.label.map((t, tIndex) => {
-                            if (t.isHighlighted) {
-                              return (
-                                <span key={tIndex} className="autoComplete_highlighted">
-                                  {t.text}
-                                </span>
-                              );
-                            }
-                            return <span key={tIndex}>{t.text}</span>;
-                          })}
+                  {formattedResults
+                    .slice(0, RESULT_LIMIT)
+                    .map((formattedResult, resultIndex) => (
+                      <li
+                        key={resultIndex}
+                        onClick={() => onResultClick(formattedResult.item.path)}
+                        className={classNames("auto-complete-result-item", {
+                          autoComplete_selected: selectedIndex === resultIndex,
+                        })}
+                      >
+                        {Array.isArray(formattedResult.formatted.label) ? (
+                          <p className="mb-0">
+                            {formattedResult.formatted.label.map(
+                              (t, tIndex) => {
+                                if (t.isHighlighted) {
+                                  return (
+                                    <span
+                                      key={tIndex}
+                                      className="autoComplete_highlighted"
+                                    >
+                                      {t.text}
+                                    </span>
+                                  );
+                                }
+                                return <span key={tIndex}>{t.text}</span>;
+                              }
+                            )}
+                          </p>
+                        ) : (
+                          <p className="mb-0">
+                            {formattedResult.formatted.label}
+                          </p>
+                        )}
+                        <p className="text-small text-muted mb-0 ">
+                          {formattedResult.item.path}
                         </p>
-                      ) : (
-                        <p className="mb-0">{formattedResult.formatted.label}</p>
-                      )}
-                      <p className="text-small text-muted mb-0 ">{formattedResult.item.path}</p>
-                    </li>
-                  ))}
+                      </li>
+                    ))}
                 </ul>
               ) : (
                 <ul id="searchPagesResults" className="auto-complete-result">

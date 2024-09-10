@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
-import { Col } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { getMenuItems } from 'routing/helper';
-import routesAndMenuItems from 'routes.js';
-import SidebarMenuItems from './SidebarMenuItems';
+import React, { useMemo } from "react";
+import { Col } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { getMenuItems } from "../../../routing/default-routes";
+import routesAndMenuItems from "../../../routes.js";
+import SidebarMenuItems from "./SidebarMenuItems";
 
 const SidebarMenu = () => {
   const { isLogin, currentUser } = useSelector((state) => state.auth);

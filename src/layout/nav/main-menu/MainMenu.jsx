@@ -1,14 +1,14 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import classNames from 'classnames';
-import { MENU_PLACEMENT, MENU_BEHAVIOUR } from 'constants.js';
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
-import { getMenuItems } from 'routing/helper';
-import { useWindowSize } from 'hooks/useWindowSize';
-import { useWindowScroll } from 'hooks/useWindowScroll';
-import routesAndMenuItems from 'routes.js';
-import { layoutShowingNavMenu } from 'layout/layoutSlice';
-import MainMenuItems from './MainMenuItems';
+import React, { useCallback, useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import classNames from "classnames";
+import { MENU_PLACEMENT, MENU_BEHAVIOUR } from "./../../../constants";
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
+import { getMenuItems } from "./../../../routing/helper";
+import { useWindowSize } from "../../../hooks/useWindowSize";
+import { useWindowScroll } from "../../../hooks/useWindowScroll";
+import routesAndMenuItems from "../../../routes";
+import { layoutShowingNavMenu } from "./../../../layout/layoutSlice";
+import MainMenuItems from "./MainMenuItems";
 import {
   menuChangeAttrMenuAnimate,
   menuChangeAttrMobile,
@@ -17,12 +17,25 @@ import {
   menuChangeNavClasses,
   menuChangePinButtonEnable,
   menuChangePlacementStatus,
-} from './menuSlice';
-import { checkBehaviour, checkPlacement, isDeeplyDiffBehaviourStatus, isDeeplyDiffPlacementStatus } from './helper';
+} from "./menuSlice";
+import {
+  checkBehaviour,
+  checkPlacement,
+  isDeeplyDiffBehaviourStatus,
+  isDeeplyDiffPlacementStatus,
+} from "./helper";
 
 const MainMenu = () => {
   const dispatch = useDispatch();
-  const { placement, behaviour, placementStatus, behaviourStatus, attrMobile, breakpoints, useSidebar } = useSelector((state) => state.menu);
+  const {
+    placement,
+    behaviour,
+    placementStatus,
+    behaviourStatus,
+    attrMobile,
+    breakpoints,
+    useSidebar,
+  } = useSelector((state) => state.menu);
   const { isLogin, currentUser } = useSelector((state) => state.auth);
   const scrolled = useWindowScroll();
   const { width } = useWindowSize();
@@ -30,7 +43,10 @@ const MainMenu = () => {
   const menuItemsMemo = useMemo(
     () =>
       getMenuItems({
-        data: attrMobile && useSidebar ? routesAndMenuItems : routesAndMenuItems.mainMenuItems,
+        data:
+          attrMobile && useSidebar
+            ? routesAndMenuItems
+            : routesAndMenuItems.mainMenuItems,
         isLogin,
         userRole: currentUser.role,
       }),
@@ -38,8 +54,8 @@ const MainMenu = () => {
   );
 
   useEffect(() => {
-    dispatch(menuChangeAttrMenuAnimate(''));
-    dispatch(layoutShowingNavMenu(''));
+    dispatch(menuChangeAttrMenuAnimate(""));
+    dispatch(layoutShowingNavMenu(""));
 
     if (placementStatus.status === 2 || placementStatus.status === 4) {
       // Switching back from the mobile menu layout fast
@@ -70,22 +86,30 @@ const MainMenu = () => {
   }, [behaviourStatus, placementStatus]);
 
   useEffect(() => {
-    if (placementStatus.placementHtmlData === MENU_PLACEMENT.Vertical && behaviourStatus.behaviourHtmlData === MENU_BEHAVIOUR.Unpinned && attrMobile !== true) {
+    if (
+      placementStatus.placementHtmlData === MENU_PLACEMENT.Vertical &&
+      behaviourStatus.behaviourHtmlData === MENU_BEHAVIOUR.Unpinned &&
+      attrMobile !== true
+    ) {
       dispatch(menuChangeCollapseAll(true));
-      dispatch(menuChangeAttrMenuAnimate('hidden'));
+      dispatch(menuChangeAttrMenuAnimate("hidden"));
     }
     return () => {};
     // eslint-disable-next-line
   }, [attrMobile]);
 
   useEffect(() => {
-    if (placementStatus.placementHtmlData === MENU_PLACEMENT.Horizontal && !attrMobile && behaviourStatus.behaviourHtmlData === MENU_BEHAVIOUR.Unpinned) {
+    if (
+      placementStatus.placementHtmlData === MENU_PLACEMENT.Horizontal &&
+      !attrMobile &&
+      behaviourStatus.behaviourHtmlData === MENU_BEHAVIOUR.Unpinned
+    ) {
       if (scrolled) {
-        dispatch(menuChangeAttrMenuAnimate('hidden'));
+        dispatch(menuChangeAttrMenuAnimate("hidden"));
         // Hiding all dropdowns to make sure they are closed when menu collapses
         document.documentElement.click();
       } else {
-        dispatch(menuChangeAttrMenuAnimate(''));
+        dispatch(menuChangeAttrMenuAnimate(""));
       }
     }
     return () => {};
@@ -95,8 +119,15 @@ const MainMenu = () => {
   const getMenuStatus = useCallback(
     (pBreakpoints, pPlacement, pBehaviour) => {
       if (pBreakpoints) {
-        const placementStatusCB = checkPlacement({ placement: pPlacement, breakpoints: pBreakpoints });
-        const behaviourStatusCB = checkBehaviour({ placement: placementStatusCB.placementHtmlData, behaviour: pBehaviour, breakpoints: pBreakpoints });
+        const placementStatusCB = checkPlacement({
+          placement: pPlacement,
+          breakpoints: pBreakpoints,
+        });
+        const behaviourStatusCB = checkBehaviour({
+          placement: placementStatusCB.placementHtmlData,
+          behaviour: pBehaviour,
+          breakpoints: pBreakpoints,
+        });
 
         if (isDeeplyDiffPlacementStatus(placementStatusCB, placementStatus)) {
           dispatch(menuChangePlacementStatus(placementStatusCB));
@@ -106,7 +137,9 @@ const MainMenu = () => {
         }
       }
       // eslint-disable-next-line
-  }, [behaviourStatus,placementStatus,breakpoints]);
+    },
+    [behaviourStatus, placementStatus, breakpoints]
+  );
 
   useEffect(() => {
     if (width && placement && behaviour && breakpoints) {
@@ -121,8 +154,11 @@ const MainMenu = () => {
     if (placementStatus.view === MENU_PLACEMENT.Horizontal) {
       return (
         <div className="menu-container flex-grow-1">
-          <ul id="menu" className={classNames('menu show')}>
-            <MainMenuItems menuItems={menuItemsMemo} menuPlacement={placementStatus.view} />
+          <ul id="menu" className={classNames("menu show")}>
+            <MainMenuItems
+              menuItems={menuItemsMemo}
+              menuPlacement={placementStatus.view}
+            />
           </ul>
         </div>
       );
@@ -131,13 +167,16 @@ const MainMenu = () => {
     return (
       <OverlayScrollbarsComponent
         options={{
-          scrollbars: { autoHide: 'leave', autoHideDelay: 600 },
-          overflowBehavior: { x: 'hidden', y: 'scroll' },
+          scrollbars: { autoHide: "leave", autoHideDelay: 600 },
+          overflowBehavior: { x: "hidden", y: "scroll" },
         }}
         className="menu-container flex-grow-1"
       >
-        <ul id="menu" className={classNames('menu show')}>
-          <MainMenuItems menuItems={menuItemsMemo} menuPlacement={placementStatus.view} />
+        <ul id="menu" className={classNames("menu show")}>
+          <MainMenuItems
+            menuItems={menuItemsMemo}
+            menuPlacement={placementStatus.view}
+          />
         </ul>
       </OverlayScrollbarsComponent>
     );
