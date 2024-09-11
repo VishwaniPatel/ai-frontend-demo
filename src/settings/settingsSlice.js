@@ -3,7 +3,6 @@ import { DEFAULT_SETTINGS } from "../config";
 
 const getComputedValues = () => {
   const rootStyle = window.getComputedStyle(document.body);
-  console.log("hey", rootStyle.getPropertyValue("--primary"));
 
   return {
     primary: rootStyle.getPropertyValue("--primary").trim(),
@@ -73,8 +72,6 @@ const settingsSlice = createSlice({
   initialState,
   reducers: {
     setColor(state, action) {
-      console.log(state.color);
-
       state.color = action.payload;
     },
     setThemeValues(state) {
@@ -97,8 +94,6 @@ const settingsSlice = createSlice({
 export const { setColor, setThemeValues } = settingsSlice.actions;
 
 export const settingsChangeColor = (color) => async (dispatch) => {
-  console.log(color);
-
   dispatch(setColor(color));
   await wait(10);
   dispatch(setThemeValues());

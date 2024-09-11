@@ -2,6 +2,7 @@
 import { lazy } from "react";
 import { USER_ROLE } from "./constants";
 import { DEFAULT_PATHS } from "./config";
+import { Navigate } from "react-router-dom";
 
 const dashboards = {
   index: lazy(() => import("./views/dashboards/Dashboards")),
@@ -230,14 +231,36 @@ const interfaces = {
 const appRoot = DEFAULT_PATHS.APP.endsWith("/")
   ? DEFAULT_PATHS.APP.slice(1, DEFAULT_PATHS.APP.length)
   : DEFAULT_PATHS.APP;
+console.log(DEFAULT_PATHS.APP);
 
 const routesAndMenuItems = {
   mainMenuItems: [
     {
       path: DEFAULT_PATHS.APP,
-      exact: true,
-      redirect: true,
-      to: `${appRoot}/dashboards/default`,
+      element: <Navigate to={`${appRoot}/dashboards/default`} />,
+    },
+    {
+      path: `${appRoot}/dashboards`,
+      element: <dashboards.index />,
+      label: "menu.dashboards",
+      icon: "home",
+      children: [
+        {
+          path: "default",
+          label: "menu.default",
+          element: <dashboards.default />,
+        },
+        {
+          path: "visual",
+          label: "menu.visual",
+          element: <dashboards.visual />,
+        },
+        {
+          path: "/analytic",
+          label: "menu.analytic",
+          element: <dashboards.analytic />,
+        },
+      ],
     },
     {
       path: `${appRoot}/dashboards`,

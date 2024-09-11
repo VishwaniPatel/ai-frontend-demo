@@ -11,7 +11,7 @@ import {
   NAV_COLOR,
   RADIUS,
   THEME_COLOR,
-} from "constants";
+} from "../../constants";
 import {
   menuChangeBehaviour,
   menuChangePlacement,

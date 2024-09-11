@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { getMenuItems } from "../../../routing/default-routes";
+import { getMenuItems } from "../../../routing/helper.js";
 import routesAndMenuItems from "../../../routes.js";
 import SidebarMenuItems from "./SidebarMenuItems";
 

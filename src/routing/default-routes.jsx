@@ -25,7 +25,7 @@ const defaultRoutes = [
   { path: DEFAULT_PATHS.INVALID_ACCESS, element: <InvalidAccess /> },
   { path: DEFAULT_PATHS.APP, element: <App /> },
   { path: "/", element: <Home /> },
-  { path: "*", element: <Navigate to={DEFAULT_PATHS.NOTFOUND} /> }, // Redirect for unknown routes
+  // { path: "*", element: <Navigate to={DEFAULT_PATHS.NOTFOUND} /> }, // Redirect for unknown routes
 ];
 
 export default defaultRoutes;
